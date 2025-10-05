@@ -1,49 +1,11 @@
-# In[1]:
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import matplotlib.pyplot as plt
-# In[2]:
 
 df = pd.read_csv("C:\\Users\\beyza\\OneDrive\\Masaüstü\\VeriBilimi\\dava_sonuclari.csv")
-# ## VERİ SETİ İNCELEME : 
-# Case Type: Davanın türü (Criminal, Civil, Commercial)  
-# Case Duration (Days): Davanın süresi (gün olarak)  
-# Judge Experience (Years): Hakimin deneyim yılı  
-# Number of Witnesses: Tanık sayısı  
-# Legal Fees (USD): Hukuk masrafları (USD olarak)  
-# Plaintiff's Reputation: Davacının itibarı (1: Düşük, 2: Orta, 3: Yüksek)  
-# Defendant's Wealth (USD): Davalının serveti  
-# Number of Evidence Items: Delil sayısı  
-# Number of Legal Precedents: İlgili hukuki emsal sayısı  
-# Settlement Offered (USD): Teklif edilen uzlaşma miktarı  
-# Severity: Davanın ciddiyet derecesi (1: Düşük, 2: Orta, 3: Yüksek)  
-# Outcome: Davanın sonucu (0: Kaybetmek, 1: Kazanmak)  
-
-# ## Görevler
-# 
-# ### Veri Ön İşleme:
-# * Veri setini inceleyin ve eksik veya aykırı değerler olup olmadığını kontrol edin.  
-# * Gerektiğinde eksik verileri doldurun veya çıkarın.  
-# * Özelliklerin ölçeklendirilmesi gibi gerekli veri dönüşümlerini uygulayın. 
-# 
-# ### Veri Setini Ayırma:
-# * Veri setini eğitim ve test setleri olarak ayırın (örn. %80 eğitim, %20 test).  
-# 
-# ### Model Kurulumu:
-# * Karar ağacı modelini oluşturun ve eğitim verileri üzerinde eğitin.
-# 
-# ### Modeli Değerlendirme:
-# * Test verilerini kullanarak modelin doğruluğunu değerlendirin.
-# * Doğruluk, precision, recall ve F1-score gibi performans metriklerini hesaplayın.
-# 
-# ### Sonuçları Görselleştirme:
-# * Karar ağacının yapısını görselleştirin.
-# * Karar ağacının nasıl çalıştığını ve hangi özelliklerin davanın sonucunu belirlemede en etkili olduğunu açıklayın.
-
-# In[ ]:
 
 #Eksik değer kontrolü
 total_missing = df.isnull().sum().sum()
@@ -74,7 +36,7 @@ for col in numeric_cols:
 if not outlier_found:
     print("Veri setinde aykırı değer yok.")
 
-#one hot encoding
+#One hot encoding
 df = pd.get_dummies(df, columns=["Case Type"], drop_first=True)
 
 y = df["Severity"]
@@ -103,7 +65,7 @@ plot_tree(model, feature_names=X.columns, class_names=[str(c) for c in sorted(y.
 plt.title("Karar Ağacının Görselleştirilmesi")
 plt.show()
 
-#Özelliklerin öenm sırasına göre yazılması
+#Özelliklerin önem sırasına göre yazılması
 importance = pd.DataFrame({
     'Feature': X.columns,
     'Importance': model.feature_importances_
